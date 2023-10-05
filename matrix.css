@@ -1,0 +1,14 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color:rgb(255, 255, 255);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 7.3px;
+    letter-spacing: 0.6px; /* line-height vs letter-spacing should be 7.3 to 0.6 */
+}
+
+canvas {
+    display: block;
+}
