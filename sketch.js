@@ -2,7 +2,7 @@ const density = "Ñ@#W$9876543210?!abc;:=-,._ ";
 let picture;
 
 function preload() {
-  picture = loadImage("picture.png");
+  picture = loadImage("images/zombie.png");
 }
 
 function setup() {

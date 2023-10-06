@@ -2,7 +2,7 @@ const density = "Ñ@#W$9876543210?!abc;:=-,._M";
 let picture;
 
 function preload() {
-  picture = loadImage("picture.png");
+  picture = loadImage("images/zombie.png");
 }
 
 function setup() {
@@ -25,7 +25,7 @@ function draw() {
       const charIndex = floor(map(avg, 0, 255, length, 0));
       const c = density.charAt(charIndex);
       if (c == "M") {
-        // Use dot for empty space with reduced alpha.
+        // Use M for empty space with reduced alpha.
         row += '<span style="opacity: 0.0;">' + c + "</span>";
       } else if (c == "") {
         row += "&nbsp;";
@@ -46,6 +46,16 @@ document.getElementById("exportButton").addEventListener("click", function () {
   svg.setAttribute("width", picture.width);
   svg.setAttribute("height", picture.height);
 
+  // Create a black background
+  const backgroundRect = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "rect"
+  );
+  backgroundRect.setAttribute("width", "1500px");
+  backgroundRect.setAttribute("height", "1500px");
+  backgroundRect.setAttribute("fill", "black"); // Set the background color to black
+  svg.appendChild(backgroundRect); // Append the background to the SVG
+
   // Create an SVG text element to hold your ASCII art
   const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
   text.setAttribute("x", "10"); // Set the X position
@@ -54,7 +64,7 @@ document.getElementById("exportButton").addEventListener("click", function () {
   text.setAttribute("font-family", "monospace"); // Set the font family
 
   // Set the text fill color to red
-  text.setAttribute("fill", "red");
+  text.setAttribute("fill", "white");
 
   // Set the xml:space attribute to "preserve" to ensure spaces are preserved
   text.setAttribute("xml:space", "preserve");
