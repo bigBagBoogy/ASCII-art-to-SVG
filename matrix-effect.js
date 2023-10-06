@@ -2,7 +2,7 @@ const density = "Ñ@#W$9876543210?!abc;:=-,._M";
 let picture;
 
 function preload() {
-  picture = loadImage("images/zombie.png");
+  picture = loadImage("images/picture.png");
 }
 
 function setup() {
@@ -41,15 +41,18 @@ function draw() {
 document.getElementById("exportButton").addEventListener("click", function () {
   // Create an SVG element
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  // Set the width and height of the SVG to match your ASCII art size
+  svg.setAttribute("width", picture.width);
+  svg.setAttribute("height", picture.height);
 
   // Create an SVG text element to hold your ASCII art
   const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  text.setAttribute("x", "10"); // Set the X position
-  text.setAttribute("y", "30"); // Set the Y position
+
   text.setAttribute("font-size", "12"); // Set the font size
   text.setAttribute("font-family", "monospace"); // Set the font family
 
-  // Set the text fill color
+  // Set the text fill color to red
   text.setAttribute("fill", "white");
 
   // Set the xml:space attribute to "preserve" to ensure spaces are preserved
@@ -71,10 +74,6 @@ document.getElementById("exportButton").addEventListener("click", function () {
       const charIndex = floor(map(avg, 0, 255, length, 0));
       const c = density.charAt(charIndex);
 
-      if (rowWidth > maxWidth) {
-        maxWidth = rowWidth;
-        // console.log(`maxWidth: ${maxWidth}`);
-      }
       if (c == "M") {
         // Use dot for empty space with reduced alpha.
         row += '<tspan style="opacity: 0.0;">' + c + "</tspan>";
@@ -82,8 +81,8 @@ document.getElementById("exportButton").addEventListener("click", function () {
         row += " "; // Use a space for empty spaces
       } else {
         row += c;
-        rowWidth += 0.1; // Increase rowWidth only for non-empty characters
       }
+      rowWidth += 0.1; // Adjust this value to control character width
     }
 
     totalHeight += 7; // Adjust this value to control line spacing
@@ -91,18 +90,21 @@ document.getElementById("exportButton").addEventListener("click", function () {
       "http://www.w3.org/2000/svg",
       "tspan"
     );
-    tspan.setAttribute("x", "10"); // Set the X position
+    tspan.setAttribute("x", "0"); // Set the X position
     tspan.setAttribute("y", totalHeight); // Set the Y position
     tspan.innerHTML = row; // Set the content of the tspan
     text.appendChild(tspan); // Append the tspan to the text element
   }
-  maxWidth = maxWidth * 2 - rowWidth * 0.1;
 
   // Set the width and height attributes of the SVG based on maxWidth and totalHeight
+  growRatio = totalHeight / picture.height;
+  maxWidth = picture.width * growRatio;
+  console.log(`growRatio: ${growRatio}`);
   svg.setAttribute("width", maxWidth); // Add extra space for padding
-  console.log(`ending maxWidth: ${maxWidth}`);
-  svg.setAttribute("height", totalHeight + 20); // Add extra space for padding
-  console.log(`ending totalHeight: ${totalHeight}`);
+  console.log(`svg maxWidth: ${maxWidth}`);
+  svg.setAttribute("height", totalHeight); // Add extra space for padding
+  console.log(`svg totalHeight: ${totalHeight}`);
+
   // Create a black background
   const backgroundRect = document.createElementNS(
     "http://www.w3.org/2000/svg",
@@ -115,10 +117,10 @@ document.getElementById("exportButton").addEventListener("click", function () {
     maxWidth = totalHeight;
   }
 
-  backgroundRect.setAttribute("width", maxWidth + 20);
-  console.log(`ending maxWidth + 20: ${maxWidth + 20}`);
-  backgroundRect.setAttribute("height", totalHeight + 20);
-  console.log(`ending totalHeight + 20: ${totalHeight + 20}`);
+  backgroundRect.setAttribute("width", maxWidth);
+  console.log(`ending maxWidth: ${maxWidth}`);
+  backgroundRect.setAttribute("height", totalHeight);
+  console.log(`ending totalHeight: ${totalHeight}`);
   backgroundRect.setAttribute("fill", "black"); // Set the background color to black
   svg.appendChild(backgroundRect); // Append the background to the SVG
 
