@@ -1,5 +1,8 @@
 libraries/
+node_modules/
+node_modules
 
 .bigBagBoogy
 .new
 .raster-img
+.package-lock
