@@ -2,7 +2,7 @@ const density = "Ñ@#W$9876543210?!abc;:=-,._M";
 let picture;
 
 function preload() {
-  picture = loadImage("images/picture.png");
+  picture = loadImage("images/Banana Fire Spinnerblast Ball Python.png");
 }
 
 function setup() {
